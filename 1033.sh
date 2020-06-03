@@ -7,12 +7,16 @@ FILE=$(wget -O - https://www.dla.mil/DispositionServices/Offers/Reutilization/La
 # download to temporary file
 wget -O temp.xlsx "https://www.dla.mil/Portals/104/Documents/DispositionServices/LESO/$FILE"
 
+DATE=$(date +"%m-%d-%y")
+export DATA="${DATE}-${FILE}"
+export DATA_DIR=$(pwd)
+
 # check if first time running
 SHEETS=$(ls -1 *.xlsx 2>/dev/null | wc -l)
 if [ $SHEETS = 1 ]; then
-    DATE=$(date +"%m-%d-%y")
-    mv temp.xlsx "${DATE}-${FILE}"
+    mv temp.xlsx $DATA
     echo "${DATE}: 1033 data downloaded" >> log
+    Rscript 1033.R "${DATE}-${FILE}"
 else
     # get sha256 of most recent local file and compare with downloaded file
     NEWEST=$(ls -1t *.xlsx | head -n1)
@@ -21,9 +25,9 @@ else
 
     # rename and save file if newer than most recent local one
     if [ $OLD_SHA != $NEW_SHA ]; then
-	DATE=$(date +"%m-%d-%y")
-	mv temp.xlsx "${DATE}-${FILE}"
+	mv temp.xlsx $DATA
 	echo "${DATE}: new 1033 data downloaded" >> log
+	Rscript 1033.R "${DATE}-${FILE}"
     else
 	rm temp.xlsx
 	echo  `date +"%m-%d-%y"`": no new 1033 data downloaded" >> log

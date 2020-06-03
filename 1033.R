@@ -1,6 +1,5 @@
 library(tidyverse)
 library(lubridate)
-library(RWmisc)
 
 ## read in data
 equipment <- rio::import_list(commandArgs(trailingOnly = T)[1])
@@ -42,8 +41,7 @@ bind_rows(equipment[1:49], .id = 'State Name') %>%
                      bind_rows(equipment[1:49]) %>% pull(`Ship Date`) %>% year() %>% max()),
        subtitle = 'Grey region denotes suspension of 1033 program',
        caption = 'Source: Defense Logistics Agency') +
-  facet_wrap(~ State) +
-  theme_rw()
+  facet_wrap(~ State)
 dev.off()
 
 quit(save ='no')
