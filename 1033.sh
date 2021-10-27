@@ -2,7 +2,7 @@
 
 # find file name
 FILE=$(wget -O - https://www.dla.mil/DispositionServices/Offers/Reutilization/LawEnforcement/PublicInformation/ \
-	   | grep -o "DISP_AllStatesAndTerritories.*\.xlsx")
+	   | grep -o "AllStatesAndTerritories.*\.xlsx")
 
 # download to temporary file
 wget -O temp.xlsx "https://www.dla.mil/Portals/104/Documents/DispositionServices/LESO/$FILE"
