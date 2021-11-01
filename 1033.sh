@@ -16,7 +16,7 @@ SHEETS=$(ls -1 *.xlsx 2>/dev/null | wc -l)
 if [ $SHEETS = 1 ]; then
     mv temp.xlsx $DATA
     echo "${DATE}: 1033 data downloaded" > log
-    Rscript 1033.R "${DATE}-${FILE}"
+    Rscript 1033.R "${DATA}"
 else
     # get sha256 of most recent local file and compare with downloaded file
     NEWEST=$(ls -1t *.xlsx | head -n1)
@@ -27,7 +27,7 @@ else
     if [ $OLD_SHA != $NEW_SHA ]; then
 	mv temp.xlsx $DATA
 	echo "${DATE}: new 1033 data downloaded" >> log
-	Rscript 1033.R "${DATE}-${FILE}"
+	Rscript 1033.R "${DATA}"
     else
 	rm temp.xlsx
 	echo  `date +"%m-%d-%y"`": no new 1033 data downloaded" >> log
