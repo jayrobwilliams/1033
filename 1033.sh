@@ -19,7 +19,7 @@ if [ $SHEETS = 1 ]; then
     Rscript 1033.R "${DATA}"
 else
     # get sha256 of most recent local file and compare with downloaded file
-    NEWEST=$(ls -1t *.xlsx | head -n1)
+    NEWEST=$(ls -1t *.xlsx | awk 'NR==2')
     NEW_SHA=$(sha256sum temp.xlsx | cut -d " " -f1)
     OLD_SHA=$(sha256sum $NEWEST | cut -d " " -f1)
 
